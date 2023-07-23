@@ -2,12 +2,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlazorChat.Api.Database;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContextBase
 {
     public ApplicationDbContext(
         DbContextOptions options) : base(options)
     {
     }
-
-
 }
