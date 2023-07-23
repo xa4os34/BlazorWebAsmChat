@@ -27,6 +27,23 @@ public abstract class DbContextBase : DbContext
         return base.SaveChanges();
     }
 
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        PreProcessChanges();
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        PreProcessChanges();
+        return await base.SaveChangesAsync(cancellationToken);
+    }
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        PreProcessChanges();
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+
     private void PreProcessChanges()
     {
         if (!ChangeTracker.HasChanges())
