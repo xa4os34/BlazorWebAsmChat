@@ -1,4 +1,4 @@
-using BlazorChat.Api.database.Extensions;
+using BlazorChat.Api.Database.Extensions;
 using BlazorChat.Api.Database.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -17,7 +17,7 @@ public abstract class DbContextBase : DbContext
     {
         modelBuilder.ApplyConfigurationsFromAssembly(
             typeof(Program).Assembly);
-            
+
         base.OnModelCreating(modelBuilder);
     }
 

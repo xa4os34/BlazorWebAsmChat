@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 
-namespace BlazorChat.Api.database.Extensions;
+namespace BlazorChat.Api.Database.Extensions;
 
 public static class ChangeTrackerExtensions
 {
