@@ -1,1 +1,67 @@
 ﻿@page "/"
+@inject NavigationManager Navigation;
+@using Microsoft.AspNetCore.SignalR.Client;
+@using BlazorChat.Shared.Chatting;
+
+<div>
+    <p>Now Online: @NowOnline</p>
+</div>
+
+<input class="form-text" @bind=Message>
+<button class="btn btn-primary" @onclick="SendAsync">
+    Send
+</button>
+
+
+@foreach (Message message in _messages)
+{
+    <p>
+        @message.CreatedAt.ToLocalTime() @(message.IsModifiedAt ? "(Edited)" : null) <br>
+        @message.Text
+    </p>
+}
+
+
+@code {
+    private HubConnection _connection = null!;
+    private LinkedList<Message> _messages = new();
+
+    public int NowOnline { get; set; }
+
+    public string Message { get; set; } = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _connection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5268/ChatHub")
+            .Build();
+
+        _connection.On<Message>("ReceiveMessage", OnReceiveMessage);
+        _connection.On<int>("NowOnlineChanged", OnNowOnlineChanged);
+
+        await _connection.StartAsync();
+
+        var messages = await _connection.InvokeAsync<IEnumerable<Message>>("GetMessages");
+        _messages = new LinkedList<Message>(messages);
+
+        NowOnline = await _connection.InvokeAsync<int>("GetNowOnline");
+    }
+
+    public void OnNowOnlineChanged(int nowOnline)
+    {
+        NowOnline = nowOnline;
+        StateHasChanged();
+    }
+
+    public void OnReceiveMessage(Message message)
+    {
+        _messages.AddFirst(message);
+        StateHasChanged();
+    }
+
+    public async Task SendAsync()
+    {
+        await _connection.InvokeAsync<Message>("SendMessage", Message);
+        Message = string.Empty;
+    }
+}
