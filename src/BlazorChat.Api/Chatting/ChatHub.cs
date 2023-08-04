@@ -1,12 +1,12 @@
-using BlazorChat.Shared.Chatting;
 using BlazorChat.Api.Database;
+using BlazorChat.Api.Database.Entities.Chatting;
+using BlazorChat.Shared.Chatting;
 using Microsoft.AspNetCore.SignalR;
 using AutoMapper;
-using BlazorChat.Api.Database.Entities.Chatting;
 
 namespace BlazorChat.Api.Chatting;
 
-public class ChatHub : Hub<IChatClient>
+public class ChatHub : IChatHub, Hub<IChatClient>
 {
     private readonly IMapper _mapper;
     private readonly ApplicationDbContext _dbContext;
