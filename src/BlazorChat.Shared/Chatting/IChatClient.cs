@@ -1,6 +1,4 @@
-using BlazorChat.Shared.Chatting;
-
-namespace BlazorChat.Api.Chatting;
+namespace BlazorChat.Shared.Chatting;
 
 public interface IChatClient
 {
