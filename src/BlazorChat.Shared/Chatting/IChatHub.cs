@@ -6,5 +6,5 @@ public interface IChatHub
 
     public IEnumerable<Message> GetMessages();
 
-    public SentMessage(string message);
+    public Task<Message> SentMessage(string message);
 }

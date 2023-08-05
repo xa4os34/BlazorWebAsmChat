@@ -6,7 +6,7 @@ using AutoMapper;
 
 namespace BlazorChat.Api.Chatting;
 
-public class ChatHub : IChatHub, Hub<IChatClient>
+public class ChatHub : Hub<IChatClient>, IChatHub
 {
     private readonly IMapper _mapper;
     private readonly ApplicationDbContext _dbContext;
